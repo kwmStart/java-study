@@ -12,5 +12,12 @@ public class MathRandomTest {
             int value = (int) (Math.random()*(99 - 10 + 1) + 10);
             System.out.println(value);
         }
+
+        //字符型的‘a’输出都为"a", 'a'的unicode为97
+        char a = 'a';
+        System.out.println(a);//a
+        System.out.println(1+'a');//98
+        System.out.println((char)97);//a
+
     }
 }
