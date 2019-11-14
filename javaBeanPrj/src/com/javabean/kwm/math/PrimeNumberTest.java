@@ -2,6 +2,8 @@ package com.javabean.kwm.math;
 
 import jdk.nashorn.internal.ir.Flags;
 
+import java.awt.*;
+
 /**
  * 100以内所有质数的输出
  * 质数：素数，只能被1和本身整除的自然数<--> 从2开始，到本身-1 ，都不能被本身整除
@@ -78,6 +80,25 @@ public class PrimeNumberTest {
             //重置isFlag
             isFlag = true;
 
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("质数的个数是：" +count);
+        System.out.println("所花费的是时间是：" + (end-start));
+    }
+
+    //通过优化质数的范围 连增加效率
+    public void test4(){
+        int count = 0;
+        long start = System.currentTimeMillis();
+        Label:for(int i = 2;i <= 100000;i++){
+            //通过根号开方缩减循环范围， Math.sprt()表示取根号，
+            //对本身是质数的自然数是有效的
+            for (int j = 2;j <= Math.sqrt(i);j++){
+                if ( i % j == 0){//i被j除尽
+                    continue Label;
+                }
+            }
+            count++;
         }
         long end = System.currentTimeMillis();
         System.out.println("质数的个数是：" +count);
