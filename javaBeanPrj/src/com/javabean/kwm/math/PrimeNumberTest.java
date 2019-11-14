@@ -98,6 +98,7 @@ public class PrimeNumberTest {
                     continue Label;
                 }
             }
+            //执行到此就是质数，累加质数数量
             count++;
         }
         long end = System.currentTimeMillis();
