@@ -31,7 +31,6 @@ public class SingletonEh01 {
 //2、通过静态内部类来初始化实例对象
 //  在内部类被加载和初始化时，才创建instance实例化对象
 //  静态内部类不会自动随内部类的加载和初始化而而初始化，但内部类时单独的初始化和加载的
-//
 class SingletonEh02 {
     //私有化构造器方法
     private SingletonEh02(){
