@@ -1,0 +1,28 @@
+MySQL的登录和退出：
+ mysql -u user -p 登录  quit退出  exit也可以退出。
+
+mysql -h localhost -P 3306 -u root -p
+-h hostname主机名
+-P 端口号
+-u mysql用户
+-p 密码
+-p+密码之间不可以有空格。
+
+MySQL命令：
+show databases; 显示数据库
+use test；  使用数据库
+show tables；显示数据表
+show tables from 数据库名；  查询指定数据库数据表。
+select  database(); 显示当前所在库命令。
+desc 表名；  显示表结构
+select * form 表名； 查询数据。
+select version(); 查看数据库版本。或者在cmd中 输入 mysql -V 或者mysql --version；
+
+MySQL语法规范：
+1、不区分大小写，但建议关键字大写，表名、列名小写。
+2、每条命令最好用分号结尾。/g
+3、每条命令根据需要，可以进行缩进和换行。
+4、注释：
+     单行注释： # 注释文字 。
+               -- 注释文字   --和文字之间要有空格。
+     多行注释： /* 注释文字*/
