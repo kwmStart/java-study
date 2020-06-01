@@ -26,3 +26,39 @@ MySQL语法规范：
      单行注释： # 注释文字 。
                -- 注释文字   --和文字之间要有空格。
      多行注释： /* 注释文字*/
+
+DQL语言学习 data query language
+1、导入myemployees.sql文件
+    #基础查询
+    /*
+    语法
+    select 查询列表 from 表名;
+
+    特点：
+    1、查询列表可以是：表中的字段、常量、函数、表达式
+    2、查询结果是一个虚拟的表格。
+    */
+    #查询所有字段 字段可以通过表中字段名称双击获取， 并且可以通过F12对SQL语句进行SQL格式化。 F9是执行查询语句
+    #`first_name` 中 “`” 是着重号 是用来区分是关键字还是字段名称
+    #起别名  好处：1、便于理解。2、如果要查询的字段有重名情况下，可以利用起别名区分开来。
+
+    # +的作用
+    # +在MySQL中只能做运算符
+    # select 1+100 两个都为数值型，则进行加法运算;
+    # select '1'+100 其中一个为字符型，试图将字符型转换成数值型，如果转换成功，则继续做加法运算。 如果转换失败，则将字符型数值转换为0，进行计算
+    # select null+ 100; 只要其中一方为null，则结果肯定为null
+
+    #显示表结构
+    DESC departments;
+
+
+DML语言学习 Data Manipulation Language 数据操纵语言
+
+
+DDL语言学习 数据定义语言Data Definition Language
+
+
+TCL语言学习Transaction Control Language事务控制语言
+
+
+TL SQL 视图 存储过程 流程控制
