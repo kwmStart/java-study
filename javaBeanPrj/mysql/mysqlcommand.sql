@@ -50,3 +50,9 @@ DESC departments;
 
 #做字段空处理
 SELECT IFNULL(commission_pct,0) "res",commission_pct FROM employees;
+
+# 条件查询
+/*
+ 语法：
+    select 查询列表  from 表名  where 筛选条件
+*/
