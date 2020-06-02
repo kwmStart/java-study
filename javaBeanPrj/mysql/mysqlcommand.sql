@@ -142,7 +142,9 @@ SELECT * FROM employees WHERE commission_pct IS NULL;
 SELECT * FROM employees WHERE commission_pct <=> NULL;
 # 查询员工工资为12000的员工信息
 SELECT * FROM employees WHERE salary <=> 12000;
-
 /*
 安全等于 <=>  不仅可以判断空值null  也可以判断数值  可读性差
 */
+
+#查询员工的员工名和年薪  commission_pct需要 ifnull判断
+SELECT last_name  ,salary*12*(1+IFNULL(commission_pct,0)) year_salary FROM employees;
