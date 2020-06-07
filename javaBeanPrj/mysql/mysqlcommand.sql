@@ -148,4 +148,3 @@ SELECT * FROM employees WHERE salary <=> 12000;
 
 #查询员工的员工名和年薪  commission_pct需要 ifnull判断
 SELECT last_name  ,salary*12*(1+IFNULL(commission_pct,0)) year_salary FROM employees;
-
