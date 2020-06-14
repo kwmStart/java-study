@@ -149,3 +149,115 @@ SELECT * FROM employees WHERE salary <=> 12000;
 #查询员工的员工名和年薪  commission_pct需要 ifnull判断
 SELECT last_name  ,salary*12*(1+IFNULL(commission_pct,0)) year_salary FROM employees;
 
+/*
+ 进阶三、排序查询：
+ 语法：
+ select 查询列表  from 表名  [where 筛选条件] order by 排序列表 asc/desc
+ 特点：1、 默认为升序，asc升序  desc 降序
+       2、order by 子句可以支持单个字段、多个字段、表达式、函数、表达式。
+       3、order by子句一般放在查询语句的最后面，limit子句除外。
+
+*/
+#案例1： 从高到低排序  员工薪资排序
+SELECT * FROM employees ORDER BY salary DESC;
+
+#案例2：查询部门编号>=90 .按照入职先后进行排序
+SELECT * FROM employees t WHERE t.`department_id`>=90 ORDER BY t.`hiredate` ;
+
+#案例3：按照年薪的高低 显示员工信息和年薪【按表达式排序】
+SELECT
+        salary * 12 * (1+ IFNULL(commission_pct, 0)) AS "year_salary",
+        t.*
+FROM
+    employees t
+ORDER BY year_salary DESC ;
+
+#案例4 按照年薪的高低 显示员工信息和年薪【按表达式排序】
+SELECT
+        salary * 12 * (1+ IFNULL(commission_pct, 0)) AS "year_salary",
+        t.*
+FROM
+    employees t
+ORDER BY salary * 12 * (1+ IFNULL(commission_pct, 0)) DESC ;
+
+#案例5 按照员工姓名长度显示员工的姓名和工资 【按函数排序】
+SELECT LENGTH(last_name) nameLength,last_name,salary FROM employees ORDER BY nameLength DESC;
+
+#案例6 查询员工信息 先按照工资排序，再按照员工编号排序
+SELECT * FROM employees ORDER BY salary DESC,employee_id DESC;
+
+#按照年薪降序 姓名升序排列。
+SELECT
+    last_name,
+    department_id,
+    salary * 12 * (1+ IFNULL(commission_pct, 0)) AS "year_salary"
+FROM
+    employees
+ORDER BY year_salary DESC,
+         last_name ;
+
+# 查询员工工资不在8000到17000之间的员工的姓名和工资，按照工资降序排列
+SELECT last_name ,salary FROM employees WHERE salary NOT BETWEEN 8000 AND 17000 ORDER BY salary DESC;
+SELECT last_name ,salary FROM employees WHERE NOT (salary BETWEEN 8000 AND 17000) ORDER BY salary DESC;
+
+# 查询员工邮箱中含有‘e’的员工信息，并按照员工邮箱字节数降序排列。
+SELECT * FROM employees  t WHERE t.`email` LIKE '%e%' ORDER BY LENGTH(t.`email`) DESC;
+
+/*
+  进阶四：常见函数
+
+  概念：类似于Java的方法。将一组逻辑语句封装在方法体内，对外暴露方法名。
+  好处： 1、隐藏了实现细节。2、提高了代码的重用性。
+  调用：select 函数名(实参列表) 【from 表名】;
+  特点： ① 叫什么（函数名） ②干什么 （函数功能）。
+  分类：
+        1、单行函数。 如：concat 、ifnull、 length等
+        2、分组函数。 做统计使用 又称为统计函数，聚合函数、组函数。
+
+*/
+# 一、字符函数
+#1、length 字节长度
+SELECT LENGTH('john');
+SELECT LENGTH('张三丰hahaha'); -- 15
+SHOW VARIABLES LIKE '%char%'; -- 查看字符集 utf8 中文三个字节  gbk 中文两个字节
+
+#2、concat拼接字符串
+SELECT CONCAT(last_name,'_',first_name) FROM employees;
+
+#3、upper 、lower 大小写转化
+SELECT CONCAT(UPPER(last_name),'_',LOWER(first_name)) AS xm FROM employees;
+
+#4、substr、substring 截取   SUBSTR 有四种重载方法
+-- 注意：SQL的索引都是从1 开始
+#根据不同参数类型数量，函数不同
+#两个参数 截取从指定索引位置开始后面的所有字符
+SELECT SUBSTR('小明喜欢吃冰淇淋',6) AS out_put;
+#三个参数 截取从指定索引位置开始指定字符长度的字符
+SELECT SUBSTR('小明喜欢吃冰淇淋',1,2) out_put;
+
+SELECT SUBSTR('小明喜欢吃冰淇淋' FROM 2) out_put; -- 从指定位置开始截取
+SELECT SUBSTR('小明喜欢吃冰淇淋'FROM 1 FOR 2) out_put; --  从指定位置开始截取指定长度字符
+
+#5、instr 返回字符串第一次出现的索引 找不到则返回0
+SELECT INSTR('杨不悔喜欢上了殷梨亭','殷梨亭') out_put; -- 8
+SELECT INSTR('杨不悔喜欢上了殷梨亭','殷六侠') out_put; -- 0
+
+#6、trim 去除前后空格
+SELECT TRIM('    yingxiong ') ;
+SELECT TRIM(BOTH 'aa' FROM 'aaaaaaaaaaaaaa英aaa雄aaaaaaaaa') AS put_out; -- 去除两边字符
+SELECT TRIM(TRAILING 'a' FROM 'aaaaaaaaaaaaaa英aaa雄aaaaaaaaa') AS put_out; -- 去除后面字符
+SELECT TRIM(LEADING 'a' FROM 'aaaaaaaaaaaaaa英aaa雄aaaaaaaaa') AS put_out; -- 去除前面字符
+
+# 语法错误MySQL8.0 select trim ('a' from 'aaaaaaaaaaaaaa英雄aaaaaaaaa') as put_out;
+
+#7、lpad 用指定字符实现左填充指定长度
+SELECT LPAD('殷素素',10,'*') ; -- *******殷素素
+SELECT LPAD('殷素素',2,'*') ; -- 殷素
+
+#8、rpad 用指定字符实现右填充指定长度
+SELECT RPAD('殷素素',11,'ab') ; -- 殷素素ababababa
+SELECT RPAD('殷素素',2,'ab') ; -- 殷素
+
+#9、replace 替换
+SELECT REPLACE('张无忌爱上了周芷若','周芷若','赵敏');
+
