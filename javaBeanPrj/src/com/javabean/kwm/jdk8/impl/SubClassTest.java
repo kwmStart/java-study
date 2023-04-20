@@ -35,14 +35,33 @@ public class SubClassTest {
 
 class SubClass extends SuperClass implements CompareA, CompareB {
 
+    /**
+     * 重写default方法
+     */
     @Override
     public void method2() {
         System.out.println("SubClass: 我是子类实现的接口中的默认方法method2的重写");
     }
 
+    /**
+     * 重写方法
+     */
     @Override
     public void method3() {
         System.out.println("SubClass: 我是实现类中的method3方法，我是重写的默认方法");
+    }
+
+    /**
+     * 方法调用
+     * 知识点5： 如何在子类或者实现类中调用父类，接口中被复写的方法
+     */
+    public void methodPassing() {
+
+        method3(); // 调用本身this的重写的方法
+        super.method3(); // 调用父类中声明的方法
+        //调用接口中的默认方法
+        CompareA.super.method3();
+        CompareB.super.method3();
     }
 
 
