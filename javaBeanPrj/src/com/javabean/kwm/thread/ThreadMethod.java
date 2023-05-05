@@ -9,6 +9,10 @@ package com.javabean.kwm.thread;
  * 4、getName(): 获取当前线程名称
  * 5、setName(): 设置当前线程名称
  * 6、yield()：释放当前线程CPU的执行权。
+ * 7、join(): 在线程a中调用线程b的join()，此时线程a就进入到阻塞状态，直到线程b完全执行完成以后，线程a才结束阻塞状态。
+ * 8、stop(): 已过时。 当执行该方法时，强制结束当前线程。
+ * 9、sleep(long milliTime) 单位毫秒； 让当前线程“睡眠”指定的milliTime毫秒，在指定的milliTime毫秒时间内，当前线程是阻塞状态。
+ * 10、isAlive()： 判断当前线程是否存活
  *
  * @Author kwm
  * @Date 2023/5/5 20:01
@@ -17,6 +21,14 @@ class MethodThread extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < 100; i++) {
+
+            // 设置睡眠时间
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             if (i % 2 ==  0) {
                 System.out.println(Thread.currentThread().getName() + " : " + i);
             }
@@ -38,6 +50,9 @@ class MethodThread extends Thread {
     }
 }
 
+/**
+ * 测试线程方法
+ */
 public class ThreadMethod {
 
     public static void main(String[] args) {
