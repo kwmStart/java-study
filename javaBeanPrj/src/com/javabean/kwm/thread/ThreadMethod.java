@@ -52,6 +52,8 @@ class MethodThread extends Thread {
 
 /**
  * 测试线程方法
+ * 线程的调度
+ * 调度策略： 1、时间片式调度  2、抢占式调度： 高优先级的线程抢占CPU
  */
 public class ThreadMethod {
 
