@@ -33,6 +33,10 @@ public class ThreadCreateTest {
         thread.start();
 
         //thread.start(); 不可以启动两次当做两个线程 否则会报错IllegalThreadStateException
+        // 线程状态发生变化
+        // 需要重新创建线程对象
+        MyThread thread1 = new MyThread();
+        thread1.start();
 
         //下列数据在main线程执行
         for (int i = 0;i <= 100;i++){
