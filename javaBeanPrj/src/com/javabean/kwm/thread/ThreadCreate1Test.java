@@ -8,7 +8,12 @@ package com.javabean.kwm.thread;
  * 4、将此对象作为参数传递到Thread类的构造器中，创建Thread类的对象
  * 5、通过Thread类的对象调用start()
  *
- *
+ * 比较创建线程的两种方式
+ * 开发中，优先使用实现Runnable接口方式
+ * 原因：1、实现的方式没有类的单继承性的局限性
+ *      2、 实现的方式更适合来处理多个线程有共享数据的情况。
+ * 联系：public class Thread implements Runnable
+ * 相同点： 两种方式都需要重写run()方法，将线程要执行的逻辑声明到run()中。
  *
  * @ClassName ThreadCreate1Test
  * @Description 多线程创建方式二练习
