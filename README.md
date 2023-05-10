@@ -21,12 +21,14 @@
 ## 20230420 add jdk8 接口中定义静态方法和默认方法测试
 ---
 > 实现类中实现多个接口的同名同参的default方法
-> ![img.png](img.png)
+> ![img.png](readmeimages/img.png)
 > 实现类中重写接口多个接口的同名同参数的默认方法method3()
-> ![img_1.png](img_1.png)
+> ![img_1.png](readmeimages/img_1.png)
 ## 线程
 ### 20230505
 #### 线程调度
-> ![img_2.png](img_2.png)
+> ![img_2.png](readmeimages/img_2.png)
 #### 线程优先级
->![img_3.png](img_3.png)
+>![img_3.png](readmeimages/img_3.png)
+#### 线程声明周期
+![img_4.png](readmeimages/threadState.png)
