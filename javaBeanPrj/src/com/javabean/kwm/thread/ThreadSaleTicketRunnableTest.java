@@ -33,6 +33,7 @@ public class ThreadSaleTicketRunnableTest {
         Thread t2 = new Thread(saleTicketRunnable);
         Thread t3 = new Thread(saleTicketRunnable);
 
+        // 设置线程名称
         t1.setName("窗口一");
         t2.setName("窗口二");
         t3.setName("窗口三");
