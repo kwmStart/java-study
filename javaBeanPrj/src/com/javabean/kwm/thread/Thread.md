@@ -86,3 +86,98 @@
 而在多核CPU系统中，则这些可以`并发`执行的程序便可以被分配到多个CPU上，实现多任务并行执行，即利用每个处理器来处理一个可以并发执行的程序，这样多个程序便可以同时执
 行。目前电脑市场上说的多核CPU，便是多核处理器，核越多，`并行`处理的程序越多，能大大的提高电脑运行的效率。
 
+## 2.创建和启动线程
+
+### 2.1概述
+- Java语言的JVM允许程序运行多个线程，使用`java.lang.Thread`类代表**线程**，所有的线程对象都必须是Thread类或其子类的实例。
+- Thread类的特性
+   - 每个线程都是通过某个特定Thread对象的run()方法来完成操作的，因此把run()方法体成为`线程执行体`。
+   - 通过该Thread对象的start()方法来启动这个线程，而非直接调用run()。
+   - 要想实现多线程，必须在主线程中创建新的线程对象。
+
+### 2.2方式1：继承Thread类
+
+Java通过继承Thread类来**创建**并**启动多线程**的步骤如下：
+
+1. 定义Thread类的子类，并重写该类的run()方法，该run()方法的方法体就代表了线程需要完成任务。
+
+2. 创建Thread子类的实例，即创建了线程对象。
+3. 调用线程对象的start()方法来启动该线程。
+   <img src="images/image-20220401221215860.png" alt="image-20220401221215860" style="zoom:67%;" />
+
+>注意：
+> 
+> 1. 如果自己手动调用run()方法，那么就只是普通方法，没有启动多线程模式。
+> 2. run()方法由JVM调用，什么时候调用，执行的过程控制都有操作系统的CPU调度决定。
+> 3. 想要启动多线程，必须调用start()方法。
+> 4. 一个线程对象只能调用一次start()方法启动，如果重复调用了，则将抛出以上的异常“`IllegalThreadStateException`”。
+
+### 2.3 方式2：实现Runnable接口
+
+Java有单继承的限制，当我们无法继承Thread类时，那么该如何做呢？在核心类库中提供了Runnable接口，我们可以实现Runnable接口，重写run()方法，然后再通过Thread类的
+对象代理启动和执行我们的线程提run()方法
+
+1. 定义Runnable接口的实现类，并重写该接口的run()方法，该run()方法的方法体同样是该线程的线程执行体。
+2. 创建Runnable实现类的实例，并以此实例作为Thread的target参数来创建Thread对象，该Thread对象才是真正的线程对象。
+3. 调用线程对象的start()方法，启动线程。调用Runnable接口实现类的run()方法。
+
+通过实现Runnable接口，使得该类有了多线程类的特征。所有的分线程要执行的代码都在run方法里面。
+
+在启动多线程的时候，需要先通过Thread类的构造方法Thread(Runnable target)构造出对象，然后调用Thread对象的start()方法来运行多线程代码。
+
+实际上，所有的多线程代码都是通过运行Thread的start()方法来运行的。因此，不管是集成Thread类还是实现Runnable接口来实现多线程，最终还是通过Thread的对象的API来
+控制线程的，熟悉Thread类的API是进行多线程编程的基础。
+
+说明：Runnable对象仅仅作为Thread对象的target，Runnable实现类里面包含的run()方法仅作为线程执行体。而实际的线程对象依然是Thread实例，只是该Thread线程执行其
+target的run()方法。
+
+<img src="images/image-20220401222212377.png" alt="image-20220401222212377"  />
+
+### 2.4 变形写法
+
+**使用匿名内部类对象来实现线程的创建和启动**
+> 继承Thread类方式
+```java
+new Thread("新的线程！"){
+    @Override
+    public void run() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(getName()+"：正在执行！"+i);
+        }    
+    }
+}.start();
+```
+> 实现Runnable接口方式
+```java
+new Thread(new Runnable(){
+    @Override
+    public void run() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(Thread.currentThread().getName()+"：" + i);
+        }    
+    }
+}).start();
+```
+### 2.5 对比两种方式
+
+**联系**
+
+Thread类实际上也是实现了Runnable接口的类。即
+```java
+public class Thread extends Object implements Runnable
+```
+
+**区别**
+- 继承Thread类：线程代码存放Thread子类run方法中。
+- 实现Runnable： 线程代码存在接口的实现类的run方法。
+
+**实现Runnable接口比继承Thread类所具有的的优势**
+- 避免了单继承的局限性
+- 多个线程可以共享一个接口实现类的对象，非常适合多个相同线程来处理同一份资源。
+- 增加程序的健壮性，实现解耦操作，代码可以被多个线程共享，代码和线程独立。
+
+### 2.6 练习
+
+创建两个分线程，让其中一个线程输出1-100之间的偶数，另一个线程输出1-100的奇数。
+
+
