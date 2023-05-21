@@ -180,4 +180,50 @@ public class Thread extends Object implements Runnable
 
 创建两个分线程，让其中一个线程输出1-100之间的偶数，另一个线程输出1-100的奇数。
 
+## 3 Thread类的常用结构
+
+### 3.1 构造器
+- public Thread():分配一个新的线程对象。
+- public Thread(String name):分配一个指定名称的新的线程对象。
+- public Thread(Runnable target):指定创建线程的目标对象，它实现了Runnable接口中的run()方法。
+- public Thread(Runnable target, String name):分配一个带有指定目标的新的线程对象并指定名称。
+
+### 3.2 常用方法系列1
+* public void run():此线程要执行的任务在此处定义代码。
+* public void start():导致此线程开始执行，Java虚拟机调用此线程的run()方法。
+* public String getName():获取当前线程名称。
+* public void setName(String name):设置此线程名称。
+* public static Thread currentThread():返回对当前正在执行的线程对象的引用。在Thread子类中的就是this，通常用于主线程和Runnable实现类。
+* public static void sleep(long millis):使当正在执行的线程一直盯的毫秒数暂停（暂时停止执行）。
+* public static void yield():yield只是让当前线程暂停一下，让系统的线程调度器重新调度一次，希望优先级与当前线程相同或更高的其他线程能够获得执行机会，
+但是这个不能保证，完全有可能的情况是，当某个线程调用yield方法暂停之后，线程调度器又将其调度出来重新执行。
+
+### 3.3 常用方法系列2
+* public final boolean isAlive():测试线程是否处于活动状态。如果线程一斤刚启动且尚未终止，则为活动状态。
+* void join():等待该线程终止。
+
+  void join(long millis):等待该线程终止的时间最长为millis毫秒。如果millis毫秒时间到，将不再等待。
+
+  void join(long millis, int nanos):等待该线程终止的时间最长为millis毫秒+nanos纳秒。
+* public final void stop():`已过时`,不建议使用。强行结束一个线程的执行，直接进入死亡状态。run()即刻停止，可能会导致一些清理性的工作得不到完成，如
+文件，数据库等的关闭。同时，会立即释放该线程所持有的的所有锁，导致数据得不到同步的处理，出现数据不一致的问题。
+* void suspend()/void resume():这两个操作就好比播放器的暂停和恢复。二者必须成对出现，否则非常容易发生死锁。suspend()调用会导致线程暂停，但不会释放
+任何锁资源，导致其他线程都无法访问被它占用的锁，知道调用resume().`已过时`，不建议使用。
+
+### 3.4 常用方法系列3
+
+每个线程都有一定的优先级，同优先级线程组成先进先出队列（先到先服务），使用分时调度策略。优先级高的线程采用抢占式策略，获得较多的执行机会。每个线程默认
+的优先级都与创建它的父线程具有相同的优先级。
+
+- Thread类的三个优先级常量：
+   - MAX_PRIORITY（10）：最高优先级。
+   - MIN_PRIORITY（1）：最低优先级。
+   - NORM_PRIORITY（5）：普通优先级，默认情况下线程具有普通优先级。
+
+* public final int getPriority():返回线程优先级。
+* public final void setPriority(int newPriority):改变线程的优先级，范围在[1,10]之间。
+
+练习：获取main线程对象的名称和优先级。
+
+声明一个匿名内部类继承Thread类，重写run方法，在run方法中获取线程名称和优先级。设置该线程优先级为最高优先级并启动该线程。
 
