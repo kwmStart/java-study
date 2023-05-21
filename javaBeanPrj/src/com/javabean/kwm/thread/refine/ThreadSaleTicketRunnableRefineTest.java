@@ -35,7 +35,8 @@ class SaleTicketRunnable implements Runnable {
     @Override
     public void run() {
         while (true) {
-            synchronized (obj) {
+//            synchronized (obj) {  // 方式一
+            synchronized (this) {  // 方式二 此时的this 就是SaleTicketRunnable 创建的对象
                 if (ticket > 0) {
                     try {
                         Thread.sleep(100);
